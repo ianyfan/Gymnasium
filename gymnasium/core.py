@@ -234,7 +234,7 @@ WrapperObsType = TypeVar("WrapperObsType")
 WrapperActType = TypeVar("WrapperActType")
 
 
-class Wrapper(Env[WrapperObsType, WrapperActType]):
+class Wrapper(Env[WrapperObsType, WrapperActType], Generic[WrapperObsType, WrapperActType, ObsType, ActType]):
     """Wraps a :class:`gymnasium.Env` to allow a modular transformation of the :meth:`step` and :meth:`reset` methods.
 
     This class is the base class of all wrappers to change the behavior of the underlying environment.

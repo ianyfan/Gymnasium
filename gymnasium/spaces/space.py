@@ -1,7 +1,8 @@
 """Implementation of the `Space` metaclass."""
 from __future__ import annotations
 
-from typing import Any, Generic, Iterable, Mapping, Sequence, TypeVar
+from collections.abc import Iterable, Mapping
+from typing import Any, Generic, TypeVar
 
 import numpy as np
 import numpy.typing as npt
@@ -10,9 +11,7 @@ from gymnasium.utils import seeding
 
 
 T_cov = TypeVar("T_cov", covariant=True)
-
-
-MaskNDArray = npt.NDArray[np.int8]
+MaskNDArray = np.ndarray[Any, np.dtype[np.int8]]
 
 
 class Space(Generic[T_cov]):
@@ -43,7 +42,7 @@ class Space(Generic[T_cov]):
 
     def __init__(
         self,
-        shape: Sequence[int] | None = None,
+        shape: Iterable[int] | None = None,
         dtype: npt.DTypeLike | None = None,
         seed: int | np.random.Generator | None = None,
     ):
@@ -141,7 +140,7 @@ class Space(Generic[T_cov]):
         # Update our state
         self.__dict__.update(state)
 
-    def to_jsonable(self, sample_n: Sequence[T_cov]) -> list[Any]:
+    def to_jsonable(self, sample_n: Iterable[T_cov]) -> list[Any]:
         """Convert a batch of samples from this space to a JSONable data type."""
         # By default, assume identity is JSONable
         return list(sample_n)
